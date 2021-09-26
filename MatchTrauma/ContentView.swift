@@ -8,19 +8,53 @@
 import SwiftUI
 
 struct ContentView: View {
-    var emojis: [String] = ["⛵️", "🚗", "🏍" , "🚂"]
+    var emojis: [String] = ["⛵️", "🚗", "🏍" , "🚂", "🚲", "🚕", "🚙", "🚌", "🚎", "🛴", "🛵", "🛺", "🚔" ]
+    @State var emojiCount = 6
+    
     var body: some View {
-        HStack{
-            CardView(content: emojis[0])
-            CardView(content: emojis[1])
-            CardView(content: emojis[2])
-            CardView(content: emojis[3])
+        VStack{
+            HStack{
+                ForEach(emojis[0..<emojiCount], id: \.self) { emojis in
+                    CardView(content: emojis)
+                    }
+                }
+            HStack{
+                add
+                Spacer()
+                remove
+            }
+            .padding(.horizontal)
+            }
+            .padding(.horizontal)
+            .foregroundColor(.purple)
         }
-        .padding(.horizontal)
-        .foregroundColor(.purple)
-    }
-}
+    
+    
+        // Add Card button:
+        var add: some View {
+            Button(action: {
+                emojiCount += 1
+            }, label:{
+                    VStack{
+                        Text("Add")
+                        Text("Card")
+                    }
+                })
+        }
+        // Remove Card button:
+        var remove: some View {
+        Button(action: {
+            emojiCount -= 1
+        }, label:{
+                VStack{
+                    Text("Remove")
+                    Text("Card")
+                }
+            })
+        }
 
+    
+    
 struct CardView: View{
     @State var isFaceUp: Bool = true
     var content: String
@@ -56,5 +90,6 @@ struct ContentView_Previews: PreviewProvider {
             .preferredColorScheme(.light)
         ContentView()
             .preferredColorScheme(.dark)
+        }
     }
 }
